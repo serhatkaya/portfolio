@@ -13,6 +13,7 @@ body {
     #3a7bd5 80%
   );
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -44,7 +45,7 @@ button {
 
 .window {
   animation: bounceIn 1s ease-in-out;
-  width: 640px;
+  min-width: 640px;
 }
 .window .handle {
   height: 22px;
@@ -104,23 +105,6 @@ button {
   color: #5ed7ff;
 }
 
-@keyframes blink {
-  50% {
-    color: transparent;
-  }
-}
-@keyframes bounceIn {
-  0% {
-    transform: translateY(-1000px);
-  }
-  60% {
-    transform: translateY(200px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
-}
-
 .profile-img {
   border-radius: 50%;
   width: 128px;
@@ -135,4 +119,28 @@ button {
 #intro ul {
   list-style: none;
   white-space: normal;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  /* border-bottom: 1px dotted black; */
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  left: 60px;
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
 }

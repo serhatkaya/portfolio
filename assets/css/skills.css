@@ -1,0 +1,18 @@
+.skills {
+  margin-top: 1rem;
+  animation: backInUp;
+  animation-duration: 0.9s;
+  display: flex;
+  flex-flow: row wrap;
+  align-content: space-between;
+  justify-content: space-between;
+}
+
+.skillbox a img {
+  width: 64px;
+  height: 64px;
+}
+
+.line-break {
+  width: 100%;
+}

@@ -13,6 +13,17 @@ $(document).ready(function () {
     terminal.text("");
   }
 
+  function skills() {
+    $("body").append(
+      '<script id="skills-js" defer src="/assets/js/skills.js"></script>'
+    );
+  }
+
+  function cleanUpBeforeProcessCmd() {
+    $("#skills-js").remove();
+    $(".skills").remove();
+  }
+
   function help() {
     $.each(commands, (i, command) => {
       terminal.append(
@@ -69,6 +80,7 @@ $(document).ready(function () {
   var terminal = $(".terminal");
   var prompt = "➜";
   var path = "~";
+  var container = $(".container");
 
   var commandHistory = [];
   var historyIndex = 0;
@@ -106,6 +118,11 @@ $(document).ready(function () {
       description: "Download the resume.",
       function: resume,
     },
+    {
+      name: "skills",
+      description: "View skills.",
+      function: skills,
+    },
   ];
 
   function processCommand() {
@@ -123,6 +140,7 @@ $(document).ready(function () {
     // Then call that command and pass in any arguments.
     for (var i = 0; i < commands.length; i++) {
       if (cmd === commands[i].name) {
+        cleanUpBeforeProcessCmd();
         commands[i].function(args);
         isValid = true;
         break;
@@ -234,7 +252,6 @@ $(document).ready(function () {
       // ENTER
       case 13: {
         terminal.append("\n");
-
         processCommand();
         displayPrompt();
         break;
