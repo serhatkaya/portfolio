@@ -29,11 +29,14 @@ $(document).ready(function () {
     link.download = "serhatkaya.pdf";
     link.dispatchEvent(new MouseEvent("click"));
   }
-
   function intro() {
-    terminal.append(
-      `<div id="intro"><img src="/assets/img/profile.png" class="profile-img"/><ul><li>Serhat KAYA</li><li>15 Nov. 1997</li><li>Software Developer</li></ul></div>\nPassionate software developer from Turkey. Always a learner and willing to improve himself with new technologies and use them to solve real-life problems.\n`
-    );
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/intro.html", false);
+    xhr.send(null);
+
+    if (xhr.status === 200) {
+      terminal.append("\n" + xhr.response + "\n");
+    }
   }
 
   function echo(args) {
@@ -43,17 +46,21 @@ $(document).ready(function () {
 
   function fortune() {
     var xhr = new XMLHttpRequest();
-    xhr.open(
-      "GET",
-      "https://cdn.rawgit.com/bmc/fortunes/master/fortunes",
-      false
-    );
+    xhr.open("GET", "https://api.quotable.io/random", false);
     xhr.send(null);
 
     if (xhr.status === 200) {
-      var fortunes = xhr.responseText.split("%");
-      var fortune = fortunes[getRandomInt(0, fortunes.length)].trim();
-      terminal.append(fortune + "\n");
+      const r = JSON.parse(xhr.response);
+      terminal.append(
+        r.content +
+          "\n" +
+          `&emsp;&emsp;&emsp;<strong>- ${r.author}</strong>` +
+          "\n"
+      );
+    } else {
+      terminal.append(
+        `<strong style="color:red;">Error while getting random quote.</strong>\n`
+      );
     }
   }
   // END COMMANDS
@@ -107,8 +114,8 @@ $(document).ready(function () {
     // Create args list by splitting the command
     // by space characters and then shift off the
     // actual command.
-
-    var args = command.split(" ");
+    var checkedCommand = strip_tags(command);
+    var args = checkedCommand.split(" ");
     var cmd = args[0];
     args.shift();
 
@@ -133,6 +140,19 @@ $(document).ready(function () {
     historyIndex = commandHistory.length;
     command = "";
     terminal.animate({ scrollTop: $(document).height() }, 1000);
+  }
+
+  function strip_tags(str, allow) {
+    //to prevent xss attack.
+    allow = (
+      ((allow || "") + "").toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []
+    ).join("");
+
+    var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi;
+    var commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
+    return str.replace(commentsAndPhpTags, "").replace(tags, function ($0, $1) {
+      return allow.indexOf("<" + $1.toLowerCase() + ">") > -1 ? $0 : "";
+    });
   }
 
   function displayPrompt() {
@@ -179,6 +199,7 @@ $(document).ready(function () {
 
     // UP or DOWN
     if (keyCode === 38 || keyCode === 40) {
+      e.preventDefault();
       // Move up or down the history
       if (keyCode === 38) {
         // UP
@@ -233,6 +254,6 @@ $(document).ready(function () {
 
   // Display last-login and promt
   terminal.append("Last login: " + date + " on ttys000\n");
-
+  clue();
   displayPrompt();
 });
