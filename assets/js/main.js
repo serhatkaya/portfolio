@@ -1,5 +1,33 @@
 $(document).ready(function () {
   "use strict";
+  var days = ["Sun.", "Mon.", "Tue.", "Wed.", "Thu", "Friday", "Sat."];
+  var months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  var currentdate = new Date();
+  var dateInterval = setInterval(function () {
+    setDate();
+  }, 1000);
+
+  $("#terminal-window")
+    .draggable({
+      containment: "body",
+      scroll: false,
+      handle: ".handle",
+    })
+    .css({ top: "0", left: "33vw" });
 
   // UTILITY
   function getRandomInt(min, max) {
@@ -13,7 +41,25 @@ $(document).ready(function () {
     terminal.text("");
   }
 
+  function setDate() {
+    currentdate = new Date();
+    dateLabel.html(
+      days[currentdate.getDay()] +
+        " " +
+        currentdate.getDate() +
+        " " +
+        months[currentdate.getMonth()] +
+        " " +
+        currentdate.getHours() +
+        ":" +
+        currentdate.getMinutes() +
+        ":" +
+        `0${currentdate.getSeconds()}`.slice(-2)
+    );
+  }
+
   function skills() {
+    cleanUpBeforeProcessCmd();
     $("body").append(
       '<script id="skills-js" defer src="/assets/js/skills.js"></script>'
     );
@@ -21,7 +67,7 @@ $(document).ready(function () {
 
   function cleanUpBeforeProcessCmd() {
     $("#skills-js").remove();
-    $(".skills").remove();
+    $(".dock").remove();
   }
 
   function help() {
@@ -78,6 +124,7 @@ $(document).ready(function () {
 
   var title = $(".title");
   var terminal = $(".terminal");
+  var dateLabel = $("#date");
   var prompt = "➜";
   var path = "~";
   var container = $(".container");
@@ -140,7 +187,7 @@ $(document).ready(function () {
     // Then call that command and pass in any arguments.
     for (var i = 0; i < commands.length; i++) {
       if (cmd === commands[i].name) {
-        cleanUpBeforeProcessCmd();
+        // cleanUpBeforeProcessCmd();
         commands[i].function(args);
         isValid = true;
         break;
@@ -266,11 +313,11 @@ $(document).ready(function () {
   title.text("serhatkaya@mac: ~ (zsh)");
 
   // Get the date for our fake last-login
-  var date = new Date().toString();
-  date = date.substr(0, date.indexOf("GMT") - 1);
+  var currentdate = new Date().toString();
+  currentdate = currentdate.substr(0, currentdate.indexOf("GMT") - 1);
 
   // Display last-login and promt
-  terminal.append("Last login: " + date + " on ttys000\n");
+  terminal.append("Last login: " + currentdate + " on ttys000\n");
   clue();
   displayPrompt();
 });

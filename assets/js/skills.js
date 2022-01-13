@@ -1,17 +1,36 @@
 $(document).ready(function () {
-  $(`<div class="skills"></div>`).insertBefore("#jquery-js");
-  skillContainer = $(".skills");
+  $(`<div class="dock"><div class="dock-container">`).insertBefore(
+    "#jquery-js"
+  );
+  dock = $(".dock-container");
+  dock.append(`
+  <li class="li-1">
+    <div class="name">Terminal</div>
+    <img
+     class="ico"
+     src="/assets/svg/terminal-1.svg"
+    />
+  </li>`);
   $.each(skills, function (i, skill) {
     if (skill.skill) {
-      skillContainer.append(`
-          <div class="skillbox tooltip">
-          <span class="tooltiptext">${skill.alt}</span>
-          <a href="${skill.href}" target="_blank">
-            <img src="/assets/svg/skills/${skill.src}" alt="${skill.alt}" />
-          </a>
-        </div>`);
-    } else {
-      skillContainer.append('<div class="line-break"></div>');
+      dock.append(
+        `
+      <li class="li-${i + 2}">
+        <div class="name">${skill.alt}</div>
+        <img
+          class="ico"
+          src="/assets/svg/skills/${skill.src}"
+          alt="${skill.alt}"
+        />
+    </li>`
+      );
+
+      $(`.li-${i + 2}`).on("click", () => {
+        var a = document.createElement("a");
+        a.href = skill.href;
+        a.target = "_blank";
+        a.click();
+      });
     }
   });
 });

@@ -10,14 +10,75 @@
       href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@200;800&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <link rel="stylesheet" href="/assets/css/animations.css" />
     <link rel="stylesheet" href="/assets/css/styles.css" />
     <link rel="stylesheet" href="/assets/css/skills.css" />
+    <link rel="stylesheet" href="/assets/css/mac.css" />
     <title>Serhat KAYA - Software Developer</title>
   </head>
   <body>
-    <div class="container">
-      <div class="window">
+    <div class="menu-bar">
+      <div class="left">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Apple_logo_white.svg/1010px-Apple_logo_white.svg.png"
+          class="apple-logo"
+          alt=""
+        />
+        <span class="menus active">Terminal</span>
+        <span class="menus">File</span>
+        <span class="menus">Edit</span>
+        <span class="menus">View</span>
+        <span class="menus">Go</span>
+        <span class="menus">Window</span>
+        <span class="menus">Help</span>
+      </div>
+      <div class="right">
+        <div class="menu-ico">
+          <img
+            src="https://freepngimg.com/download/united_states/76187-sound-information-united-business-states-address-email.png"
+            alt=""
+            class="vol"
+          />
+        </div>
+        <div class="menu-ico">
+          <i class="fab fa-bluetooth-b"></i>
+        </div>
+        <div class="menu-ico">
+          <i class="fas fa-battery-half"></i>
+        </div>
+        <div class="menu-ico">
+          <i class="fas fa-wifi"></i>
+        </div>
+        <div class="menu-ico">
+          <i class="fas fa-search"></i>
+        </div>
+        <div class="menu-ico">
+          <img
+            src="https://eshop.macsales.com/blog/wp-content/uploads/2021/03/control-center-icon.png"
+            alt=""
+            class="control-center"
+          />
+        </div>
+        <div class="menu-ico">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/en/8/8e/AppleSiriIcon2017.png"
+            alt=""
+            class="siri"
+          />
+        </div>
+
+        <div class="menu-time" id="date">Mon 31 May 05:30</div>
+      </div>
+    </div>
+    <div class="container" id="container">
+      <div class="window" id="terminal-window">
         <div class="handle">
           <div class="buttons">
             <button class="close"></button>
@@ -29,12 +90,14 @@
         <div class="terminal"></div>
       </div>
     </div>
+
     <script
       id="jquery-js"
       src="https://code.jquery.com/jquery-3.6.0.min.js"
       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
       crossorigin="anonymous"
     ></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
     <script defer src="/assets/js/main.js"></script>
   </body>
 </html>
