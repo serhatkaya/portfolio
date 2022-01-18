@@ -45,6 +45,7 @@ button {
   min-width: 640px;
   width: 640px;
 }
+
 .window .handle {
   height: 22px;
   background: linear-gradient(0deg, #d8d8d8, #ececec);
@@ -58,20 +59,25 @@ button {
   line-height: 22px;
   text-align: center;
 }
+
 .window .buttons {
   position: absolute;
   float: left;
   margin: 0 8px;
 }
+
 .window .buttons .close {
   background-color: #ff6159;
 }
+
 .window .buttons .minimize {
   background-color: #ffbf2f;
 }
+
 .window .buttons .maximize {
   background-color: #25cc3e;
 }
+
 .window .terminal {
   padding: 4px;
   background-color: black;
@@ -90,6 +96,7 @@ button {
   border-bottom-right-radius: 5px;
   overflow-y: auto;
 }
+
 .window .terminal::after {
   content: "|";
   animation: blink 2s steps(1) infinite;
@@ -119,30 +126,29 @@ button {
   white-space: normal;
 }
 
-.tooltip {
-  position: relative;
-  display: inline-block;
-  /* border-bottom: 1px dotted black; */
-}
-
-.tooltip .tooltiptext {
-  visibility: hidden;
-  width: 120px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  left: 60px;
-  /* Position the tooltip */
-  position: absolute;
-  z-index: 1;
-}
-
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-}
-
 #terminal-window .handle {
   cursor: move;
+}
+
+@media screen and (max-width: 1023px) {
+  .menu-bar {
+    display: none !important;
+  }
+
+  .dock {
+    display: none !important;
+  }
+
+  .terminal {
+    width: 100vw !important;
+    height: 100vh !important;
+  }
+
+  .handle {
+    width: 100vw !important;
+  }
+
+  body {
+    display: block !important;
+  }
 }

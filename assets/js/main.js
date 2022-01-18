@@ -1,6 +1,7 @@
 $(document).ready(function () {
   "use strict";
-  var days = ["Sun.", "Mon.", "Tue.", "Wed.", "Thu", "Friday", "Sat."];
+  $(window).bind("resize", draggableHandler);
+  var days = ["Sun.", "Mon.", "Tue.", "Wed.", "Thu", "Fri.", "Sat."];
   var months = [
     "January",
     "February",
@@ -21,13 +22,29 @@ $(document).ready(function () {
     setDate();
   }, 1000);
 
-  $("#terminal-window")
-    .draggable({
-      containment: "body",
-      scroll: false,
-      handle: ".handle",
-    })
-    .css({ top: "0", left: "33vw" });
+  var draggableEnabled = false;
+  draggableHandler();
+
+  function draggableHandler() {
+    if (checkWindowSizeForMaximize()) {
+      if (draggableEnabled) {
+        $("#terminal-window").draggable("destroy");
+        $(".window").removeAttr("style");
+        draggableEnabled = false;
+      }
+    } else {
+      if (!draggableEnabled) {
+        $("#terminal-window")
+          .draggable({
+            containment: "body",
+            scroll: false,
+            handle: ".handle",
+          })
+          .css({ top: "0", left: "33vw" });
+        draggableEnabled = true;
+      }
+    }
+  }
 
   // UTILITY
   function getRandomInt(min, max) {
@@ -50,19 +67,21 @@ $(document).ready(function () {
         " " +
         months[currentdate.getMonth()] +
         " " +
-        currentdate.getHours() +
+        `0${currentdate.getHours()}`.slice(-2) +
         ":" +
-        currentdate.getMinutes() +
+        `${currentdate.getMinutes()}` +
         ":" +
         `0${currentdate.getSeconds()}`.slice(-2)
     );
   }
 
   function skills() {
-    cleanUpBeforeProcessCmd();
-    $("body").append(
-      '<script id="skills-js" defer src="/assets/js/skills.js"></script>'
-    );
+    if (!checkWindowSizeForMaximize()) {
+      cleanUpBeforeProcessCmd();
+      $("body").append(
+        '<script id="skills-js" defer src="/assets/js/skills.js"></script>'
+      );
+    }
   }
 
   function cleanUpBeforeProcessCmd() {
@@ -244,6 +263,10 @@ $(document).ready(function () {
 
   function clue() {
     terminal.append("Type help to view available commands.\n");
+  }
+
+  function checkWindowSizeForMaximize() {
+    return window.matchMedia("(max-width: 1023px)").matches;
   }
 
   $(document).keydown(function (e) {
