@@ -117,8 +117,16 @@ button {
   border: 5px solid #bde371;
 }
 
+.experience-img {
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  border: 1px solid #5ed7ff;
+}
+
 #intro {
   display: flex;
+  align-items: center;
 }
 
 #intro ul {
@@ -128,6 +136,27 @@ button {
 
 #terminal-window .handle {
   cursor: move;
+}
+.terminal .skill-line {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+}
+
+.terminal .skill-line:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.terminal .skill-line img.skill {
+  width: 16px;
+  height: 16px;
+}
+.terminal table {
+  width: 100%;
+  border-collapse: collapse;
+  border-color: grey;
+  line-height: 1.45em;
 }
 
 @media screen and (max-width: 1023px) {
@@ -141,7 +170,7 @@ button {
 
   .terminal {
     width: 100vw !important;
-    height: 100vh !important;
+    height: 97vh !important;
   }
 
   .handle {
@@ -151,4 +180,10 @@ button {
   body {
     display: block !important;
   }
+}
+
+ul li::before {
+  content: attr(data-icon);
+  font-size: 1.25em;
+  margin-right: 5px;
 }

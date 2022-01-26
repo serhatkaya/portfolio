@@ -1,20 +1,20 @@
 $(document).ready(function () {
-  "use strict";
+  ("use strict");
   $(window).bind("resize", draggableHandler);
-  var days = ["Sun.", "Mon.", "Tue.", "Wed.", "Thu", "Fri.", "Sat."];
+  var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   var months = [
-    "January",
-    "February",
-    "March",
-    "April",
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
     "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
 
   var currentdate = new Date();
@@ -75,18 +75,48 @@ $(document).ready(function () {
     );
   }
 
-  function skills() {
-    if (!checkWindowSizeForMaximize()) {
-      cleanUpBeforeProcessCmd();
-      $("body").append(
-        '<script id="skills-js" defer src="/assets/js/skills.js"></script>'
-      );
-    }
+  function renderSkills() {
+    $.each(skills, function (i, skill) {
+      if (skill.alt) {
+        terminal.append(
+          `<a class="skill-line" id="skill-${i}" >- ${skill.alt} <img class="skill" src="/assets/svg/skills/${skill.src}"/> \n </a>`
+        );
+        $(`#skill-${i}`).on("click", function () {
+          var a = document.createElement("a");
+          a.href = skill.href;
+          a.target = "_blank";
+          a.click();
+        });
+      }
+    });
   }
 
-  function cleanUpBeforeProcessCmd() {
-    $("#skills-js").remove();
-    $(".dock").remove();
+  function renderExperiences() {
+    terminal.append(
+      `<table border="1" id="experienceTable">
+            <thead>
+              <tr>
+                <th>Company</th>
+                <th>Title</th>
+                <th>Location</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+      ` + "\n"
+    );
+    const experienceTable = $("#experienceTable tbody");
+    $.each(experiences, function (i, experience) {
+      experienceTable.append(`
+      <tr>
+        <td>${experience.company}</td>
+        <td>${experience.title}</td>
+        <td>${experience.location}</td>
+        <td>${experience.date}</td>
+      `);
+    });
   }
 
   function help() {
@@ -105,6 +135,7 @@ $(document).ready(function () {
     link.download = "serhatkaya.pdf";
     link.dispatchEvent(new MouseEvent("click"));
   }
+
   function intro() {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "/intro.html", false);
@@ -143,10 +174,14 @@ $(document).ready(function () {
 
   var title = $(".title");
   var terminal = $(".terminal");
+  terminal.on("click", function () {
+    $("#hiddenText").focus();
+    $("#hiddenText").click();
+  });
+
   var dateLabel = $("#date");
   var prompt = "➜";
   var path = "~";
-  var container = $(".container");
 
   var commandHistory = [];
   var historyIndex = 0;
@@ -186,8 +221,18 @@ $(document).ready(function () {
     },
     {
       name: "skills",
-      description: "View skills.",
-      function: skills,
+      description: "List of skills.",
+      function: renderSkills,
+    },
+    {
+      name: "experience",
+      description: "List of experiences.",
+      function: renderExperiences,
+    },
+    {
+      name: "contact",
+      description: "Send me a message.",
+      function: contact,
     },
   ];
 
@@ -206,7 +251,6 @@ $(document).ready(function () {
     // Then call that command and pass in any arguments.
     for (var i = 0; i < commands.length; i++) {
       if (cmd === commands[i].name) {
-        // cleanUpBeforeProcessCmd();
         commands[i].function(args);
         isValid = true;
         break;
@@ -223,7 +267,45 @@ $(document).ready(function () {
     commandHistory.push(command);
     historyIndex = commandHistory.length;
     command = "";
-    terminal.animate({ scrollTop: $(document).height() }, 1000);
+    setTimeout(() => {
+      terminal.animate({ scrollTop: terminal.prop("scrollHeight") }, 1000);
+    }, 10);
+  }
+
+  var emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+
+  function contact(args) {
+    if (args.length < 2) {
+      terminal.append(`Usage: contact &lt;email&gt; &lt;message&gt; \n`);
+    } else {
+      const email = args[0];
+      const message = args.slice(0).join(" ");
+      if (!emailRegex.test(email)) {
+        terminal.append(`Please provide a valid e-mail address. \n`);
+      } else {
+        var fd = new FormData();
+        fd.append("_replyto", email);
+        fd.append("message", message);
+        $.ajax({
+          method: "post",
+          processData: false,
+          contentType: false,
+          headers: {
+            accept: " application/json, text/plain, */*",
+          },
+          cache: false,
+          data: fd,
+          enctype: "multipart/form-data",
+          url: "https://formspree.io/f/mqkwjppn",
+          success: function (response) {
+            terminal.append(
+              "I got your message, I will get to back you soon. \n"
+            );
+            displayPrompt();
+          },
+        });
+      }
+    }
   }
 
   function strip_tags(str, allow) {
@@ -341,6 +423,139 @@ $(document).ready(function () {
 
   // Display last-login and promt
   terminal.append("Last login: " + currentdate + " on ttys000\n");
+  intro();
   clue();
   displayPrompt();
 });
+
+var skills = [
+  {
+    href: "https://docs.microsoft.com/tr-tr/dotnet/csharp/",
+    src: "csharp-original.svg",
+    alt: "C#",
+    skill: true,
+  },
+  {
+    href: "https://www.javascript.com/",
+    src: "javascript-original.svg",
+    alt: "javascript",
+    skill: true,
+  },
+  {
+    href: "https://www.typescriptlang.org/",
+    src: "typescript-original.svg",
+    alt: "typescript",
+    skill: true,
+  },
+  {
+    href: "https://html.com/",
+    src: "html5-original-wordmark.svg",
+    alt: "HTML",
+    skill: true,
+  },
+  {
+    href: "https://www.w3.org/Style/CSS/Overview.en.html",
+    src: "css3-original-wordmark.svg",
+    alt: "CSS",
+    skill: true,
+  },
+  {
+    href: "https://sass-lang.com/",
+    src: "sass-original.svg",
+    alt: "Sass",
+    skill: true,
+  },
+  {
+    href: "https://dotnet.microsoft.com/en-us/",
+    src: "netcore.svg",
+    alt: ".NETCore",
+    skill: true,
+  },
+  {
+    href: "https://angular.io/",
+    src: "angular.svg",
+    alt: "Angular",
+    skill: true,
+  },
+  {
+    href: "https://vuejs.org/",
+    src: "vuejs-original-wordmark.svg",
+    alt: "VueJs",
+    skill: true,
+  },
+  {
+    href: "https://expressjs.com/",
+    src: "express-original-wordmark.svg",
+    alt: "expressjs",
+    skill: true,
+  },
+  {
+    href: "https://nestjs.com/",
+    src: "nestjs.svg",
+    alt: "NestJS",
+    skill: true,
+  },
+  {
+    href: "https://nodejs.org/en/",
+    src: "nodejs-original-wordmark.svg",
+    alt: "NodeJS",
+    skill: true,
+  },
+  {
+    href: "https://d3js.org/",
+    src: "d3js-original.svg",
+    alt: "d3js",
+    skill: true,
+  },
+  {
+    href: "https://jquery.com/",
+    src: "jquery-vertical.svg",
+    alt: "jQuery",
+    skill: true,
+  },
+  {
+    href: "https://www.rabbitmq.com/",
+    src: "rabbitmq.svg",
+    alt: "RabbitMQ",
+    skill: true,
+  },
+  {
+    href: "https://www.linux.org/",
+    src: "linux-original.svg",
+    alt: "Linux",
+    skill: true,
+  },
+  {
+    href: "https://git-scm.com/",
+    src: "git.svg",
+    alt: "git",
+    skill: true,
+  },
+  {
+    href: "https://www.docker.com/",
+    src: "docker-original-wordmark.svg",
+    alt: "docker",
+    skill: true,
+  },
+];
+
+var experiences = [
+  {
+    title: "IT Technician",
+    date: "March 2016, April 2016",
+    company: "Plymouth Argyle Football Club",
+    location: "Plymouth, United Kingdom",
+  },
+  {
+    title: "Fullstack Developer",
+    date: "March 2021, January 2022",
+    company: "Amatis Software Engineering",
+    location: "Izmir, Turkey",
+  },
+  {
+    title: "Software Developer",
+    date: "January 2022, Present",
+    company: "Emakina",
+    location: "Izmir, Turkey",
+  },
+];

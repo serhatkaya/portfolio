@@ -192,6 +192,14 @@ body {
   margin-left: 10px;
 }
 
+li[class*="li-"] {
+  margin-right: 2px;
+  margin-left: 2px;
+  cursor: pointer;
+}
+li[class*="li-"] img {
+  border-radius: 0.6rem;
+}
 li[class*="li-"]:hover .name {
   visibility: visible !important;
 }

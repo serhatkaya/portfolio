@@ -11,23 +11,23 @@ $(document).ready(function () {
      src="/assets/svg/terminal-1.svg"
     />
   </li>`);
-  $.each(skills, function (i, skill) {
-    if (skill.skill) {
+  $.each(social, function (i, link) {
+    if (link.name) {
       dock.append(
         `
       <li class="li-${i + 2}">
-        <div class="name">${skill.alt}</div>
+        <div class="name">${link.name}</div>
         <img
           class="ico"
-          src="/assets/svg/skills/${skill.src}"
-          alt="${skill.alt}"
+          src="/assets/img/social/${link.src}"
+          alt="${link.name}"
         />
     </li>`
       );
 
       $(`.li-${i + 2}`).on("click", () => {
         var a = document.createElement("a");
-        a.href = skill.href;
+        a.href = link.href;
         a.target = "_blank";
         a.click();
       });
@@ -35,122 +35,35 @@ $(document).ready(function () {
   });
 });
 
-skills = [
+social = [
   {
-    href: "https://docs.microsoft.com/tr-tr/dotnet/csharp/",
-    src: "csharp-original.svg",
-    alt: "C#",
-    skill: true,
+    name: "Linkedin",
+    href: "https://www.linkedin.com/in/kaya-serhat/",
+    src: "lin.svg",
   },
   {
-    href: "https://www.javascript.com/",
-    src: "javascript-original.svg",
-    alt: "javascript",
-    skill: true,
+    name: " Github",
+    href: "https://github.com/serhatkaya",
+    src: "github.svg",
   },
   {
-    href: "https://www.typescriptlang.org/",
-    src: "typescript-original.svg",
-    alt: "typescript",
-    skill: true,
+    name: "Stackblitz",
+    href: "https://stackblitz.com/@serhatkaya",
+    src: "stackblitz.png",
   },
   {
-    href: "https://html.com/",
-    src: "html5-original-wordmark.svg",
-    alt: "HTML",
-    skill: true,
+    name: "npm",
+    href: "https://www.npmjs.com/~serhatkaya",
+    src: "npm.svg",
   },
   {
-    href: "https://www.w3.org/Style/CSS/Overview.en.html",
-    src: "css3-original-wordmark.svg",
-    alt: "CSS",
-    skill: true,
+    name: "codepen",
+    href: "https://codepen.io/serhatkaya",
+    src: "codepen.svg",
   },
   {
-    href: "https://sass-lang.com/",
-    src: "sass-original.svg",
-    alt: "Sass",
-    skill: true,
-  },
-  {
-    skill: false,
-  },
-  {
-    href: "https://dotnet.microsoft.com/en-us/",
-    src: "netcore.svg",
-    alt: ".NETCore",
-    skill: true,
-  },
-  {
-    href: "https://angular.io/",
-    src: "angular.svg",
-    alt: "Angular",
-    skill: true,
-  },
-  {
-    href: "https://vuejs.org/",
-    src: "vuejs-original-wordmark.svg",
-    alt: "VueJs",
-    skill: true,
-  },
-  {
-    href: "https://expressjs.com/",
-    src: "express-original-wordmark.svg",
-    alt: "expressjs",
-    skill: true,
-  },
-  {
-    href: "https://nestjs.com/",
-    src: "nestjs.svg",
-    alt: "NestJS",
-    skill: true,
-  },
-  {
-    href: "https://nodejs.org/en/",
-    src: "nodejs-original-wordmark.svg",
-    alt: "NodeJS",
-    skill: true,
-  },
-  {
-    skill: false,
-  },
-  {
-    href: "https://d3js.org/",
-    src: "d3js-original.svg",
-    alt: "d3js",
-    skill: true,
-  },
-  {
-    href: "https://jquery.com/",
-    src: "jquery-vertical.svg",
-    alt: "jQuery",
-    skill: true,
-  },
-  {
-    href: "https://www.rabbitmq.com/",
-    src: "rabbitmq.svg",
-    alt: "RabbitMQ",
-    skill: true,
-  },
-  {
-    href: "https://www.linux.org/",
-    src: "linux-original.svg",
-    alt: "Linux",
-    skill: true,
-  },
-  {
-    href: "https://git-scm.com/",
-    src: "git.svg",
-    alt: "git",
-    skill: true,
-  },
-  {
-    href: "https://www.docker.com/",
-    src: "docker-original-wordmark.svg",
-    alt: "docker",
-    skill: true,
-  },
-  {
-    skill: false,
+    name: "DEV.TO",
+    href: "https://dev.to/serhatkaya",
+    src: "devto.svg",
   },
 ];
