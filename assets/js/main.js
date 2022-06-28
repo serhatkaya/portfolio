@@ -131,8 +131,8 @@ $(document).ready(function () {
 
   function resume() {
     var link = document.createElement("a");
-    link.href = "/assets/serhatkaya.pdf";
-    link.download = "serhatkaya.pdf";
+    link.href = "/assets/resume.pdf";
+    link.download = "resume.pdf";
     link.dispatchEvent(new MouseEvent("click"));
   }
 
